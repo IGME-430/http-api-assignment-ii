@@ -1,0 +1,26 @@
+{
+  "name": "bxk8027-assignment5",
+  "version": "1.0.0",
+  "description": "HTTP-API-Assignment-II",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests Complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IGME-430/http-api-assignment-ii.git"
+  },
+  "author": "Benjamin Kleynhans",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/IGME-430/http-api-assignment-ii/issues"
+  },
+  "homepage": "https://github.com/IGME-430/http-api-assignment-ii#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
