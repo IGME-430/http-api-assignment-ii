@@ -5,6 +5,7 @@ const responseHandler = require('./jsonResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+// define dictionary of functions for easy reference from request
 const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,

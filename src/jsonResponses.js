@@ -2,6 +2,7 @@ const query = require('querystring');
 
 const users = {};
 
+// Configure messages for responses
 const messages = {
   200: {
     id: 'getUsers',
@@ -29,31 +30,37 @@ const messages = {
   },
 };
 
+// Send a response that contains JSON-formatted data
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.write(JSON.stringify(object));
   response.end();
 };
 
+// Send a response that contains JSON-formatted metadata
 const respondJSONMeta = (request, response, status) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.end();
 };
 
+// Add a user to the users dictionary
 const addUser = (request, response) => {
   const res = response;
   const body = [];
 
+  // if the request contains erroneous information, response with 400 status
   request.on('error', (err) => {
     console.dir(err);
     res.statusCode = 400;
     res.end();
   });
 
+  // if the request contains data, add it to the body array
   request.on('data', (chunk) => {
     body.push(chunk);
   });
 
+  // once all the data has been received
   request.on('end', () => {
     const bodyString = Buffer.concat(body).toString();
     const bodyParams = query.parse(bodyString);
@@ -62,11 +69,13 @@ const addUser = (request, response) => {
       message: 'Name and age are both required.',
     };
 
+    // confirm that the appropriate amount of data was provided
     if (!bodyParams.name || !bodyParams.age) {
       responseJSON.id = 'missingParams';
       return respondJSON(request, response, 400, responseJSON);
     }
 
+    // if required level of data was provided, set response code to successfully created
     let responseCode = 201;
 
     if (users[bodyParams.name]) {
@@ -75,9 +84,11 @@ const addUser = (request, response) => {
       users[bodyParams.name] = {};
     }
 
+    // set the values in the array
     users[bodyParams.name].name = bodyParams.name;
     users[bodyParams.name].age = bodyParams.age;
 
+    // respond with successful creation
     if (responseCode === 201) {
       responseJSON.message = 'Created Successfully';
       return respondJSON(request, response, responseCode, responseJSON);
@@ -87,6 +98,7 @@ const addUser = (request, response) => {
   });
 };
 
+// return the users object
 const getUsers = (request, response) => {
   const responseJSON = {
     users,
